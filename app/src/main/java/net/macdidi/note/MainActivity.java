@@ -13,14 +13,26 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import net.macdidi.note.Colors;
+
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private ListView item_list;
     private TextView show_app_name;
-    private ArrayList<String> data = new ArrayList<>();
-    private ArrayAdapter<String> adapter;
+
+    //private ArrayList<String> data = new ArrayList<>();
+    //private ArrayAdapter<String> adapter;
+
+    private ItemAdapter itemAdapter;
+    private List<Item> items;
+
+    private MenuItem add_item, search_item, revert_item, delete_item;
+    private int selectedCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +42,25 @@ public class MainActivity extends AppCompatActivity {
         processViews();
         processControllers();
 
-        data.add("Relate to Android Tutorial");
-        data.add("it is a very cute puppy!");
-        data.add("it is a very nice music!");
+        items = new ArrayList<Item>();
 
-        int layoutId = android.R.layout.simple_list_item_1;
-        adapter = new ArrayAdapter<String>(this, layoutId, data);
+        items.add(new Item(1, new Date().getTime(), Colors.RED, "Relate to Android Tutorial.",
+                "Hello content","","",0,0,0));
+        items.add(new Item(2,new Date().getTime(), Colors.BLUE,"it is a very cute puppy!",
+                "Her name call [Big Hot Dog], also call \n [Kiss], she is a very cute\n dog.","","",
+                0,0,0));
+        items.add(new Item(3, new Date().getTime(), Colors.GREEN,"it is a very nice sound!",
+                "Hello content","","",0,0,0));
+
+        itemAdapter = new ItemAdapter(this, R.layout.single_item, items);
+        item_list.setAdapter(itemAdapter);
+
+        //data.add("Relate to Android Tutorial");
+        //data.add("it is a very cute puppy!");
+        //data.add("it is a very nice music!");
+
+        //int layoutId = android.R.layout.simple_list_item_1;
+        //adapter = new ArrayAdapter<String>(this, layoutId, data);
 
         /*String[] data ={
                 "Relate to Android Tutorial",
@@ -45,12 +70,12 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, layoutId, data);
         ListView item_list = (ListView) findViewById(R.id.item_list);*/
 
-            item_list.setAdapter(adapter);
+            //item_list.setAdapter(adapter);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (resultCode == Activity.RESULT_OK){
+        /*if (resultCode == Activity.RESULT_OK){
             String titleText = data.getStringExtra("titleText");
             if (requestCode == 0) {
                 this.data.add(titleText);
@@ -62,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                 }
             }
-        }
+        }*/
     }
 
     private  void processViews(){
@@ -71,12 +96,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private  void  processControllers(){
-        AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener(){
+      /*  AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener(){
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
                 //Toast.makeText(MainActivity.this, data.get(position), Toast.LENGTH_LONG).show();
-                Intent intent = new Intent("net.macdidi.note.Edit_ITEM"); //<--- here should be the mistake
+                Intent intent = new Intent("net.macdidi.note.Edit_ITEM");
                 intent.putExtra("position", position);
                 intent.putExtra("titleText", data.get(position));
                 startActivityForResult(intent,1);
@@ -91,14 +116,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Long: " + data.get(position), Toast.LENGTH_LONG).show();
                 return false;
             }
-        };
+        }; */
     }
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }*/
 
     public void aboutApp(View view){
         Intent intent = new Intent(this, AboutActivity.class);
