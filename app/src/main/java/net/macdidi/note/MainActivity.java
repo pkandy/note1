@@ -75,19 +75,30 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        /*if (resultCode == Activity.RESULT_OK){
-            String titleText = data.getStringExtra("titleText");
+        if (resultCode == Activity.RESULT_OK){
+           // String titleText = data.getStringExtra("titleText");
+            Item item =(Item) data.getExtras().getSerializable("net.macdidi.note.Item");
+
             if (requestCode == 0) {
-                this.data.add(titleText);
-                adapter.notifyDataSetChanged();
+               // this.data.add(titleText);
+               // adapter.notifyDataSetChanged();
+                item.setId(items.size()+1);
+                item.setDatetime(new Date().getTime());
+
+                items.add(item);
+
+                itemAdapter.notifyDataSetChanged();
+
             }else if (requestCode == 1){
                 int position = data.getIntExtra("position", -1);
                 if (position != -1){
-                    this.data.set(position, titleText);
-                    adapter.notifyDataSetChanged();
+                   // this.data.set(position, titleText);
+                  //  adapter.notifyDataSetChanged();
+                    items.set(position, item);
+                    itemAdapter.notifyDataSetChanged();
                 }
             }
-        }*/
+        }
     }
 
     private  void processViews(){
@@ -96,21 +107,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private  void  processControllers(){
-      /*  AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener(){
+        AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener(){
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
                 //Toast.makeText(MainActivity.this, data.get(position), Toast.LENGTH_LONG).show();
-                Intent intent = new Intent("net.macdidi.note.Edit_ITEM");
+                Item item = itemAdapter.getItem(position);
+
+                Intent intent = new Intent("net.macdidi.note.EDIT_ITEM");
                 intent.putExtra("position", position);
-                intent.putExtra("titleText", data.get(position));
+                intent.putExtra("net.macdidi.note.Item", item);
+
+                //intent.putExtra("titleText", data.get(position));
                 startActivityForResult(intent,1);
             }
         };
 
         item_list.setOnItemClickListener(itemListener);
 
-        AdapterView.OnItemLongClickListener itemLongListener = new AdapterView.OnItemLongClickListener() {
+        /*AdapterView.OnItemLongClickListener itemLongListener = new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(MainActivity.this, "Long: " + data.get(position), Toast.LENGTH_LONG).show();
