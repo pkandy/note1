@@ -42,7 +42,7 @@ public class ItemAdapter extends ArrayAdapter<Item>{
         }
 
         RelativeLayout typeColor = (RelativeLayout) itemView.findViewById(R.id.type_color);
-        ImageView selectedItem = (ImageView) itemView.findViewById(R.id.select_item);
+        ImageView selectedItem = (ImageView) itemView.findViewById(R.id.selected_item);
         TextView titleView = (TextView) itemView.findViewById(R.id.title_text);
         TextView dateView = (TextView) itemView.findViewById(R.id.date_text);
 

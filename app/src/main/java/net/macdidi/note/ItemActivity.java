@@ -30,6 +30,8 @@ public class ItemActivity extends AppCompatActivity {
         String action = intent.getAction();
 
         if (action.equals("net.macdidi.note.EDIT_ITEM")) {
+            String titleText = intent.getStringExtra("titleText");
+            title_text.setText(titleText);
             item = (Item) intent.getExtras().getSerializable("net.macdidi.note.Item");
             title_text.setText(item.getTitle());
             content_text.setText(item.getContent());
@@ -120,6 +122,9 @@ public class ItemActivity extends AppCompatActivity {
             result = Colors.PURPLE;
         }
         else if(color == Colors.GREEN.parseColor()){
+            result = Colors.GREEN;
+        }
+        else if(color == Colors.ORANGE.parseColor()){
             result = Colors.ORANGE;
         }
         else if (color == Colors.RED.parseColor()){
